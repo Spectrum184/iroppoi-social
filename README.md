@@ -9,7 +9,7 @@
   </p>
   <p style="color:#50fa7b">Oh shit! What a bug!</p>
 <img alt="GIF" src="https://media.giphy.com/media/hrSFdM4rg8VFpXyz2m/giphy.gif" />
-<img width="1080" height="1080" src="https://scontent-lax3-2.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/167184954_886255248774614_5126245532673509900_n.jpg?tp=1&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=1&_nc_ohc=e0N_np-8Y8QAX9YVFMk&ccb=7-4&oh=556b8bc6577b89c76f2944c137995fe5&oe=608B4147&_nc_sid=4f375e">
+<img width="562px" height="638px" src="https://scontent-lax3-2.cdninstagram.com/v/t51.2885-15/e35/p1080x1080/167184954_886255248774614_5126245532673509900_n.jpg?tp=1&_nc_ht=scontent-lax3-2.cdninstagram.com&_nc_cat=1&_nc_ohc=e0N_np-8Y8QAX9YVFMk&ccb=7-4&oh=556b8bc6577b89c76f2944c137995fe5&oe=608B4147&_nc_sid=4f375e">
   <br>
   <br>
 </div>
