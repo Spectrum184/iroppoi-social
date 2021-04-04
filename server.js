@@ -16,6 +16,7 @@ app.use(cookieParser());
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
+app.use("/api", require("./routes/userRouter"));
 
 mongoose.connect(
   URI,
