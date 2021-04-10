@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Avatar from "../Avatar";
 import { getProfileUsers } from "../../redux/actions/profileAction";
+import EditProfile from "./EditProfile";
+import FollowBtn from "../FollowBtn";
 
 const Info = () => {
   const { id } = useParams();
@@ -10,6 +12,7 @@ const Info = () => {
   const dispatch = useDispatch();
 
   const [userData, setUserData] = useState([]);
+  const [onEdit, setOnEdit] = useState(false);
 
   useEffect(() => {
     if (id === auth.user._id) {
@@ -31,7 +34,16 @@ const Info = () => {
           <div className="info-content">
             <div className="info-content-title">
               <h2>{user.username}</h2>
-              <button className="btn btn-outline-info"> Edit Profile</button>
+              {user._id === auth.user._id ? (
+                <button
+                  className="btn btn-outline-info"
+                  onClick={() => setOnEdit(true)}
+                >
+                  Edit Profile
+                </button>
+              ) : (
+                <FollowBtn />
+              )}
             </div>
             <div className="follow-btn">
               <span className="mr-4">{user.followers.length} Followers</span>
@@ -47,6 +59,8 @@ const Info = () => {
             </Link>
             <p>{user.story}</p>
           </div>
+
+          {onEdit && <EditProfile setOnEdit={setOnEdit} />}
         </div>
       ))}
     </div>
