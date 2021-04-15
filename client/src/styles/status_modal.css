@@ -1,0 +1,68 @@
+.status-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #0008;
+  z-index: 4;
+  width: 100%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.status-modal form {
+  max-width: 450px;
+  width: 100%;
+  background: white;
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.status-modal .status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  transform: translateY(-10px);
+}
+
+.status-modal .status-header span {
+  font-size: 2rem;
+  font-weight: 900;
+  cursor: pointer;
+  transform: translateY(-5px);
+}
+
+.status-modal .status-body textarea {
+  width: 100%;
+  min-height: 150px;
+  outline: none;
+  resize: none;
+  border: none;
+}
+
+.status-modal .status-body .input-image {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.status-modal .status-body .input-image i {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.status-modal .status-body .file-upload {
+  overflow: hidden;
+  margin: 0 10px;
+  position: relative;
+}
+
+.status-modal .status-body .file-upload #file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
