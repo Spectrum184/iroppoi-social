@@ -38,6 +38,12 @@ img {
   object-fit: cover;
 }
 
+.mode {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
 /* ------------AUTH-------------- */
 @import url("./auth.css");
 
