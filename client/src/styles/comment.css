@@ -1,0 +1,20 @@
+.comment-input {
+  display: flex;
+  align-items: center;
+}
+
+.comment-input input {
+  background: #f7f7f7;
+  border: none;
+  outline: none;
+  flex: 1;
+  overflow: auto;
+}
+
+.comment-input .btn-post {
+  border: none;
+  outline: none;
+  background-color: #f7f7f7;
+  color: blueviolet;
+  font-weight: 600;
+}

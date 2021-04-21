@@ -42,7 +42,7 @@
 
 .posts .card-header .dropdown-menu {
   position: absolute;
-  left: inherit !important;
+  left: inherit;
   right: 0;
 }
 
