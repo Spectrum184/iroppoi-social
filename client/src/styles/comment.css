@@ -18,3 +18,43 @@
   color: blueviolet;
   font-weight: 600;
 }
+
+/* ----------------Comment---------------- */
+.comment-display {
+  padding: 10px 25px;
+}
+
+.comment-card .comment-content {
+  background: #eee;
+  padding: 7px;
+  border-radius: 10px;
+  border-top-left-radius: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-card .comment-content .read-more {
+  cursor: pointer;
+  color: crimson;
+}
+
+.comment-card .comment-content .nav-item {
+  cursor: pointer;
+  opacity: 0;
+}
+
+.comment-card .comment-content:hover .nav-item {
+  opacity: 1;
+}
+
+.comment-card .comment-content .dropdown-menu {
+  position: absolute;
+  right: 0;
+  left: inherit;
+}
+
+.comment-card .comment-content .dropdown-item {
+  display: flex;
+  margin: 10px 0;
+}
