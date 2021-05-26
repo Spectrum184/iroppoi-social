@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const LikeButton = ({ liked, handleLike, handleUnLike }) => {
+const LikeButton = ({ isLike, handleLike, handleUnLike }) => {
   const { theme } = useSelector((state) => state);
 
   return (
     <>
-      {liked ? (
+      {isLike ? (
         <i
-          className="fas fa-heart text-danger"
+          className="text-danger fas fa-heart"
           onClick={handleUnLike}
           style={{ filter: theme ? "invert(1)" : "invert(0)" }}
         />
