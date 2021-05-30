@@ -37,7 +37,7 @@ const CardFooter = ({ post }) => {
       <div className="card-icon-menu">
         <div>
           <LikeButton
-            liked={liked}
+            isLike={liked}
             handleLike={handleLike}
             handleUnLike={handleUnLike}
           />

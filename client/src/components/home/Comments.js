@@ -38,7 +38,7 @@ const Comments = ({ post }) => {
           See more comment...
         </div>
       ) : (
-        comments.length - 2 && (
+        comments.length > 2 && (
           <div
             className="p-2 border-top"
             style={{ cursor: "pointer", color: "crimson" }}

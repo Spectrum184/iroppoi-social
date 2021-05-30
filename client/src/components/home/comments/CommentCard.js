@@ -24,6 +24,8 @@ const CommentCard = ({ children, comment, post, commentId }) => {
 
   useEffect(() => {
     setContent(comment.content);
+    setIsLike(false);
+    setOnReply(false);
 
     if (comment.likes.find((like) => like._id === auth.user._id)) {
       setIsLike(true);
@@ -89,6 +91,11 @@ const CommentCard = ({ children, comment, post, commentId }) => {
             />
           ) : (
             <div>
+              {comment.tag && comment.tag._id !== comment.user._id && (
+                <Link to={`/profile/${comment.tag._id}`} className="mr-1">
+                  @{comment.tag.username}
+                </Link>
+              )}
               <span>
                 {content.length < 100
                   ? content
@@ -112,7 +119,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
               {moment(comment.createAt).fromNow()}
             </small>
             <small className="font-weight-bold mr-3">
-              {comment.likes.length} likes
+              {comment.likes && comment.likes.length} likes
             </small>
             {onEdit ? (
               <>
@@ -142,12 +149,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
             handleLike={handleLike}
             handleUnLike={handleUnLike}
           />
-          <CommentMenu
-            post={post}
-            comment={comment}
-            auth={auth}
-            setOnEdit={setOnEdit}
-          />
+          <CommentMenu post={post} comment={comment} setOnEdit={setOnEdit} />
         </div>
       </div>
 
@@ -158,6 +160,7 @@ const CommentCard = ({ children, comment, post, commentId }) => {
           </Link>
         </InputComment>
       )}
+
       {children}
     </div>
   );

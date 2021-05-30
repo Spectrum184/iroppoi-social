@@ -67,3 +67,6 @@ img {
 
 /* ------------COMMENT-------------- */
 @import url("./comment.css");
+
+/* ------------POST_THUMB-------------- */
+@import url("./post_thumb.css");
