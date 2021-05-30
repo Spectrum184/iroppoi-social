@@ -19,7 +19,7 @@ const Home = () => {
           <Posts />
         )}
       </div>
-      <div className="col-md-4"></div>
+      <div className="col-md-4">right side bar</div>
     </div>
   );
 };
