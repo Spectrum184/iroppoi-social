@@ -7,7 +7,7 @@ import {
 } from "../../utils/fetchData";
 
 export const createComment =
-  ({ post, newComment, auth }) =>
+  ({ post, newComment, auth, socket }) =>
   async (dispatch) => {
     const newPost = { ...post, comments: [...post.comments, newComment] };
 
@@ -27,6 +27,8 @@ export const createComment =
       const newPost = { ...post, comments: [...post.comments, newData] };
 
       dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+
+      socket.emit("createComment", newPost);
     } catch (err) {
       dispatch({
         type: GLOBAL_TYPES.ALERT,
@@ -102,7 +104,7 @@ export const unlikeComment =
   };
 
 export const deleteComment =
-  ({ post, auth, comment }) =>
+  ({ post, auth, comment, socket }) =>
   async (dispatch) => {
     const deleteArr = [
       ...post.comments.filter((cm) => cm.reply === comment._id),
@@ -117,6 +119,8 @@ export const deleteComment =
     };
 
     dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
+
+    socket.emit("deleteComment", newPost);
 
     try {
       deleteArr.forEach((item) => {

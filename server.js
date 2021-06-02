@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const rfs = require("rotating-file-stream");
 const path = require("path");
+const SocketServer = require("./socketServer");
 
 const app = express();
 
@@ -24,6 +25,14 @@ app.use(
 );
 app.use(cors());
 app.use(cookieParser());
+
+// Socket.io
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+io.on("connection", (socket) => {
+  SocketServer(socket);
+});
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
@@ -45,6 +54,6 @@ mongoose.connect(
   }
 );
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log("Server listening on port: " + port);
 });

@@ -41,6 +41,7 @@ const Login = () => {
             onChange={handleChangeInput}
             value={email}
             name="email"
+            autoComplete="username"
           />
           <small id="emailHelp" className="form-text text-muted">
             We'll never share your email with anyone else.
@@ -56,6 +57,7 @@ const Login = () => {
               onChange={handleChangeInput}
               value={password}
               name="password"
+              autoComplete="current-password"
             />
             <small onClick={() => setTypePass(!typePass)}>
               {typePass ? "Hide" : "Show"}

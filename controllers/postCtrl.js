@@ -55,7 +55,7 @@ const postCtrl = {
 
       const posts = await features.query
         .sort("-createAt")
-        .populate("user likes", "avatar username fullname")
+        .populate("user likes", "avatar username fullname followers")
         .populate({
           path: "comments",
           populate: {
