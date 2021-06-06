@@ -58,7 +58,7 @@ const NotifyModal = () => {
                 {msg.image && <Avatar src={msg.image} size="medium-avatar" />}
               </div>
             </Link>
-            <small className="text-muted d-lex justify-content-between p2x">
+            <small className="text-muted d-flex justify-content-between p2x">
               {moment(msg.createdAt).fromNow()}
               {!msg.isRead && <i className="fas fa-circle text-primary" />}
             </small>

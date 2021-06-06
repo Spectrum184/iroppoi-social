@@ -3,6 +3,8 @@ import { postDataAPI, deleteDataAPI, getDataAPI } from "../../utils/fetchData";
 
 export const NOTIFY_TYPES = {
   GET_NOTIFIES: "GET_NOTIFIES",
+  CREAT_NOTIFY: "CREAT_NOTIFY",
+  REMOVE_NOTIFY: "REMOVE_NOTIFY",
 };
 
 export const createNotify =
@@ -10,6 +12,14 @@ export const createNotify =
   async (dispatch) => {
     try {
       const res = await postDataAPI("notify", msg, auth.token);
+
+      socket.emit("createNotify", {
+        ...res.data.notify,
+        user: {
+          username: auth.user.username,
+          avatar: auth.user.avatar,
+        },
+      });
     } catch (err) {
       dispatch({
         type: GLOBAL_TYPES.ALERT,
@@ -22,10 +32,9 @@ export const removeNotify =
   ({ msg, auth, socket }) =>
   async (dispatch) => {
     try {
-      const res = await deleteDataAPI(
-        `notify/${msg.id}?url=${msg.url}`,
-        auth.token
-      );
+      await deleteDataAPI(`notify/${msg.id}?url=${msg.url}`, auth.token);
+
+      socket.emit("removeNotify", msg);
     } catch (err) {
       dispatch({
         type: GLOBAL_TYPES.ALERT,

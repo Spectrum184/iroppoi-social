@@ -5,6 +5,7 @@ import {
   patchDataAPI,
   deleteDataAPI,
 } from "../../utils/fetchData";
+import { createNotify, removeNotify } from "../actions/notifyAction";
 
 export const createComment =
   ({ post, newComment, auth, socket }) =>
@@ -29,6 +30,19 @@ export const createComment =
       dispatch({ type: POST_TYPES.UPDATE_POST, payload: newPost });
 
       socket.emit("createComment", newPost);
+
+      //Notify
+      const msg = {
+        id: res.data.newComment._id,
+        text: newComment.reply
+          ? "mentioned you in a comment"
+          : "has commented on your post",
+        recipients: newComment.reply ? [newComment.tag._id] : [post.user._id],
+        url: `/post/${post._id}`,
+        content: post.content,
+        image: post.images[0].url,
+      };
+      dispatch(createNotify({ msg, auth, socket }));
     } catch (err) {
       dispatch({
         type: GLOBAL_TYPES.ALERT,
@@ -125,6 +139,16 @@ export const deleteComment =
     try {
       deleteArr.forEach((item) => {
         deleteDataAPI(`comment/${item._id}`, auth.token);
+        //Notify
+        const msg = {
+          id: item._id,
+          text: comment.reply
+            ? "mentioned you in a comment"
+            : "has commented on your post",
+          recipients: comment.reply ? [comment.tag._id] : [post.user._id],
+          url: `/post/${post._id}`,
+        };
+        dispatch(removeNotify({ msg, auth, socket }));
       });
     } catch (err) {
       dispatch({
