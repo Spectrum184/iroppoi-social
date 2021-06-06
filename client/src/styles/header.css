@@ -42,6 +42,16 @@
   cursor: pointer;
 }
 
+.header .menu .notify-length {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+}
+
 /* -------------HEADER SEARCH------------------ */
 .header .search-form {
   position: relative;

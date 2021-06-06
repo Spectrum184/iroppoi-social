@@ -8,7 +8,6 @@ const morgan = require("morgan");
 const rfs = require("rotating-file-stream");
 const path = require("path");
 const SocketServer = require("./socketServer");
-
 const app = express();
 
 const port = process.env.PORT || 5000;
@@ -28,17 +27,22 @@ app.use(cookieParser());
 
 // Socket.io
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
 
 io.on("connection", (socket) => {
   SocketServer(socket);
 });
-
 //Routes
 app.use("/api", require("./routes/authRouter"));
 app.use("/api", require("./routes/userRouter"));
 app.use("/api", require("./routes/postRouter"));
 app.use("/api", require("./routes/commentRouter"));
+app.use("/api", require("./routes/notifyRouter"));
 
 mongoose.connect(
   URI,

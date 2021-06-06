@@ -16,6 +16,7 @@ import io from "socket.io-client";
 import { refreshToken } from "./redux/actions/authAction";
 import { getPosts } from "./redux/actions/postAction";
 import { getSuggestions } from "./redux/actions/suggestionsAction";
+import { getNotifies } from "./redux/actions/notifyAction";
 import { GLOBAL_TYPES } from "./redux/actions/globalTypes";
 import SocketClient from "./SocketClient";
 
@@ -35,6 +36,7 @@ function App() {
     if (auth.token) {
       dispatch(getPosts(auth.token));
       dispatch(getSuggestions(auth.token));
+      dispatch(getNotifies(auth.token));
     }
   }, [dispatch, auth.token]);
 
