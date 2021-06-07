@@ -1,12 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { POST_TYPES } from "./redux/actions/postAction";
 import { GLOBAL_TYPES } from "./redux/actions/globalTypes";
 import { NOTIFY_TYPES } from "./redux/actions/notifyAction";
+import audioBell from "./audio/tone.mp3";
+
+const spawnNotification = (body, icon, url, title) => {
+  let options = {
+    body,
+    icon,
+  };
+
+  let n = new Notification(title, options);
+
+  n.onclick = (e) => {
+    e.preventDefault();
+    window.open(url, "_blank");
+  };
+};
 
 const SocketClient = () => {
-  const { auth, socket } = useSelector((state) => state);
+  const { auth, socket, notify } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  const audioRef = useRef();
 
   //connect
   useEffect(() => {
@@ -80,10 +97,19 @@ const SocketClient = () => {
         type: NOTIFY_TYPES.CREAT_NOTIFY,
         payload: msg,
       });
+
+      if (notify.sound) audioRef.current.play();
+
+      spawnNotification(
+        msg.user.username + " " + msg.text,
+        msg.user.avatar,
+        msg.url,
+        "Iroppoi"
+      );
     });
 
     return () => socket.off("createNotifyToClient");
-  }, [socket, dispatch]);
+  }, [socket, dispatch, notify.sound]);
 
   useEffect(() => {
     socket.on("removeNotifyToClient", (msg) => {
@@ -96,7 +122,13 @@ const SocketClient = () => {
     return () => socket.off("removeNotifyToClient");
   }, [socket, dispatch]);
 
-  return <></>;
+  return (
+    <>
+      <audio controls ref={audioRef} style={{ display: "none" }}>
+        <source src={audioBell} type="audio/mp3" />
+      </audio>
+    </>
+  );
 };
 
 export default SocketClient;
