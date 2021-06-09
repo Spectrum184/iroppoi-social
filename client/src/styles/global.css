@@ -72,6 +72,9 @@ img {
 /* ------------POST_THUMB-------------- */
 @import url("./post_thumb.css");
 
+/* ------------MESSAGE-------------- */
+@import url("./message.css");
+
 /* -------------RESPONSIVE--------------- */
 @media (max-width: 768px) {
   .header .menu {
@@ -115,5 +118,9 @@ img {
 
   .wrap-page {
     margin-bottom: 60px;
+  }
+
+  .message {
+    height: calc(100vh - 150px);
   }
 }
