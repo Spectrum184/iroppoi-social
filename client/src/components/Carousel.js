@@ -24,12 +24,22 @@ const Carousel = ({ images, id }) => {
         <div className="carousel-inner">
           {images.map((img, index) => (
             <div key={index} className={`carousel-item ${isActive(index)}`}>
-              <img
-                className="d-block w-100"
-                src={img.url}
-                alt={img.url}
-                style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-              />
+              {img.url.match(/video/i) ? (
+                <video
+                  controls
+                  className="d-block w-100"
+                  src={img.url}
+                  alt={img.url}
+                  style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+                />
+              ) : (
+                <img
+                  className="d-block w-100"
+                  src={img.url}
+                  alt={img.url}
+                  style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+                />
+              )}
             </div>
           ))}
         </div>
@@ -38,6 +48,7 @@ const Carousel = ({ images, id }) => {
           href={`#image${id}`}
           role="button"
           data-slide="prev"
+          style={{ width: "5%" }}
         >
           <span
             className="carousel-control-prev-icon"
@@ -50,6 +61,7 @@ const Carousel = ({ images, id }) => {
           href={`#image${id}`}
           role="button"
           data-slide="next"
+          style={{ width: "5%" }}
         >
           <span
             className="carousel-control-next-icon"

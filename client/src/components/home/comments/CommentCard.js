@@ -13,7 +13,7 @@ import {
 import InputComment from "../InputComment";
 
 const CommentCard = ({ children, comment, post, commentId }) => {
-  const { auth } = useSelector((state) => state);
+  const { auth, theme } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [content, setContent] = useState("");
   const [readMore, setReadMore] = useState(false);
@@ -82,7 +82,13 @@ const CommentCard = ({ children, comment, post, commentId }) => {
         <h6 className="mx-1">{comment.user.username}</h6>
       </Link>
       <div className="comment-content">
-        <div className="flex-fill">
+        <div
+          className="flex-fill"
+          style={{
+            filter: theme ? "invert(1)" : "invert(0)",
+            color: theme ? "white" : "#111",
+          }}
+        >
           {onEdit ? (
             <textarea
               rows="5"

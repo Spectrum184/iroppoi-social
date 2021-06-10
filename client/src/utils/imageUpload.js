@@ -25,13 +25,10 @@ export const imageUpload = async (images) => {
     formData.append("upload_preset", "fg5buzmu");
     formData.append("cloud_name", "sonobe");
 
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/sonobe/image/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const res = await fetch("https://api.cloudinary.com/v1_1/sonobe/upload", {
+      method: "POST",
+      body: formData,
+    });
 
     const data = await res.json();
 
