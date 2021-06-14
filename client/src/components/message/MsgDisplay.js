@@ -1,14 +1,31 @@
 import React from "react";
 import Avatar from "../Avatar";
+import { imageShow, videoShow } from "../../utils/mediaShow";
 
-const MsgDisplay = ({ user }) => {
+const MsgDisplay = ({ user, msg, theme }) => {
   return (
     <>
       <div className="chat-title">
         <Avatar src={user.avatar} size="small-avatar" />
         <span>{user.username}</span>
-        <div className="chat-text">Aavavavav</div>
-        <div className="chat-time">May 2021</div>
+        {msg.text && (
+          <div
+            className="chat-text"
+            style={{ filter: theme ? "invert(1)" : "invert(0)" }}
+          >
+            {msg.text}
+          </div>
+        )}
+        {msg.media.map((item, index) => (
+          <div key={index}>
+            {item.url.match(/video/i)
+              ? videoShow(item.url, theme)
+              : imageShow(item.url, theme)}
+          </div>
+        ))}
+        <div className="chat-time">
+          {new Date(msg.createdAt).toLocaleString()}
+        </div>
       </div>
     </>
   );

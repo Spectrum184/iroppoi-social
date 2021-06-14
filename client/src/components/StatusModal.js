@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { GLOBAL_TYPES } from "../redux/actions/globalTypes";
 import { createPost, updatePost } from "../redux/actions/postAction";
+import { videoShow, imageShow } from "../utils/mediaShow";
 import Icons from "./Icons";
 
 const StatusModal = () => {
@@ -23,7 +24,7 @@ const StatusModal = () => {
       if (!file) return (err = "File does not exist");
 
       if (file.size > 1024 * 1024 * 5)
-        return (err = "The image largest is 5mb");
+        return (err = "The image/video largest is 5mb");
 
       return newImages.push(file);
     });
@@ -74,29 +75,6 @@ const StatusModal = () => {
   const handleStopStream = () => {
     tracks.stop();
     setStream(false);
-  };
-
-  const imageShow = (src) => {
-    return (
-      <img
-        src={src}
-        alt="images"
-        style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-        className="img-thumbnail"
-      />
-    );
-  };
-
-  const videoShow = (src) => {
-    return (
-      <video
-        controls
-        src={src}
-        alt="images"
-        style={{ filter: theme ? "invert(1)" : "invert(0)" }}
-        className="img-thumbnail"
-      />
-    );
   };
 
   const handleSubmit = (e) => {
@@ -159,18 +137,18 @@ const StatusModal = () => {
             {images.map((img, index) => (
               <div key={index} id="file-img">
                 {img.camera ? (
-                  imageShow(img.camera)
+                  imageShow(img.camera, theme)
                 ) : img.url ? (
                   <>
                     {img.url.match(/video/i)
-                      ? videoShow(img.url)
-                      : imageShow(img.url)}
+                      ? videoShow(img.url, theme)
+                      : imageShow(img.url, theme)}
                   </>
                 ) : (
                   <>
                     {img.type.match(/video/i)
-                      ? videoShow(URL.createObjectURL(img))
-                      : imageShow(URL.createObjectURL(img))}
+                      ? videoShow(URL.createObjectURL(img), theme)
+                      : imageShow(URL.createObjectURL(img), theme)}
                   </>
                 )}
                 <span onClick={() => deleteImages(index)}>&times;</span>
