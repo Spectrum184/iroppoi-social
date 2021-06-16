@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import UserCard from "../UserCard";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,11 @@ import Icons from "../Icons";
 import { GLOBAL_TYPES } from "../../redux/actions/globalTypes";
 import { videoShow, imageShow } from "../../utils/mediaShow";
 import { imageUpload } from "../../utils/imageUpload";
-import { addMessage } from "../../redux/actions/messageAction";
+import {
+  addMessage,
+  getMessages,
+  MESS_TYPES,
+} from "../../redux/actions/messageAction";
 import LoadIcon from "../../images/loading.gif";
 
 const RightSide = () => {
@@ -18,11 +22,15 @@ const RightSide = () => {
   const [text, setText] = useState("");
   const [media, setMedia] = useState([]);
   const [loadMedia, setLoadMedia] = useState(false);
+  const refDisplay = useRef();
+  const pageEnd = useRef();
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const newUser = message.users.find((user) => user._id === id);
     if (newUser) {
       setUser(newUser);
+      setPage(1);
     }
   }, [message.users, id]);
 
@@ -72,8 +80,63 @@ const RightSide = () => {
     };
 
     setLoadMedia(false);
-    dispatch(addMessage({ msg, auth, socket }));
+    await dispatch(addMessage({ msg, auth, socket }));
+
+    if (refDisplay.current) {
+      refDisplay.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
   };
+
+  useEffect(() => {
+    if (id) {
+      const getMessagesData = async () => {
+        dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: { messages: [] } });
+
+        await dispatch(getMessages({ auth, id }));
+
+        if (refDisplay.current) {
+          refDisplay.current.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+          });
+        }
+      };
+
+      getMessagesData();
+    }
+  }, [id, dispatch, auth]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].intersecting) {
+          setPage((p) => p + 1);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+    observer.observe(pageEnd.current);
+  }, [setPage]);
+
+  useEffect(() => {
+    if (message.resultData >= (page - 1) * 9 && page > 1) {
+      dispatch(getMessages({ auth, id, page }));
+    }
+  }, [auth, dispatch, id, page, message.resultData]);
+
+  useEffect(() => {
+    if (refDisplay.current) {
+      refDisplay.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [text]);
 
   return (
     <>
@@ -88,7 +151,10 @@ const RightSide = () => {
         className="chat-container"
         style={{ height: media.length > 0 ? "calc(100% - 180px)" : "" }}
       >
-        <div className="chat-display">
+        <div className="chat-display" ref={refDisplay}>
+          <button style={{ marginTop: "-25px", opacity: 0 }} ref={pageEnd}>
+            Load more
+          </button>
           {message.data.map((msg, index) => (
             <div key={index}>
               {msg.sender !== auth.user._id && (

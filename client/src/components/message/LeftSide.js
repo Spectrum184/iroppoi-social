@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UserCard from "../UserCard";
 import { useSelector, useDispatch } from "react-redux";
 import { GLOBAL_TYPES } from "../../redux/actions/globalTypes";
 import { getDataAPI } from "../../utils/fetchData";
 import { useHistory, useParams } from "react-router-dom";
-import { addUser } from "../../redux/actions/messageAction";
+import { addUser, getConversation } from "../../redux/actions/messageAction";
 
 const LeftSide = () => {
   const [search, setSearch] = useState("");
@@ -43,6 +43,11 @@ const LeftSide = () => {
 
     return "";
   };
+
+  useEffect(() => {
+    if (message.firstLoad) return;
+    dispatch(getConversation({ auth }));
+  }, [message.firstLoad, dispatch, auth]);
 
   return (
     <>
