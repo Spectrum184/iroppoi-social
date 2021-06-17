@@ -25,13 +25,20 @@ const RightSide = () => {
   const refDisplay = useRef();
   const pageEnd = useRef();
   const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const newData = message.data.filter(
+      (item) => item.sender === auth.user._id || item.sender === id
+    );
+
+    setData(newData);
+    setPage(1);
+  }, [auth.user._id, id, message.data]);
 
   useEffect(() => {
     const newUser = message.users.find((user) => user._id === id);
-    if (newUser) {
-      setUser(newUser);
-      setPage(1);
-    }
+    if (newUser) setUser(newUser);
   }, [message.users, id]);
 
   const handleChangeMedia = (e) => {
@@ -94,7 +101,7 @@ const RightSide = () => {
     if (id) {
       const getMessagesData = async () => {
         dispatch({ type: MESS_TYPES.GET_MESSAGES, payload: { messages: [] } });
-
+        setPage(1);
         await dispatch(getMessages({ auth, id }));
 
         if (refDisplay.current) {
@@ -155,7 +162,7 @@ const RightSide = () => {
           <button style={{ marginTop: "-25px", opacity: 0 }} ref={pageEnd}>
             Load more
           </button>
-          {message.data.map((msg, index) => (
+          {data.map((msg, index) => (
             <div key={index}>
               {msg.sender !== auth.user._id && (
                 <div className="chat-row other-message">

@@ -36,10 +36,13 @@ export const addMessage =
   };
 
 export const getConversation =
-  ({ auth }) =>
+  ({ auth, page = 1 }) =>
   async (dispatch) => {
     try {
-      const res = await getDataAPI("conversations", auth.token);
+      const res = await getDataAPI(
+        `conversations?limit=${page * 9}`,
+        auth.token
+      );
 
       let newArr = [];
       res.data.conversations.forEach((item) => {

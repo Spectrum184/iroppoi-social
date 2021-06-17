@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import UserCard from "../UserCard";
 import { useSelector, useDispatch } from "react-redux";
 import { GLOBAL_TYPES } from "../../redux/actions/globalTypes";
@@ -13,6 +13,8 @@ const LeftSide = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const pageEnd = useRef();
+  const [page, setPage] = useState(0);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -43,6 +45,26 @@ const LeftSide = () => {
 
     return "";
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].intersecting) {
+          setPage((p) => p + 1);
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+    observer.observe(pageEnd.current);
+  }, [setPage]);
+
+  useEffect(() => {
+    if (message.resultUsers >= (page - 1) * 9 && page > 1) {
+      dispatch(getConversation({ auth, page }));
+    }
+  }, [auth, dispatch, page, message.resultUsers]);
 
   useEffect(() => {
     if (message.firstLoad) return;
@@ -91,6 +113,9 @@ const LeftSide = () => {
             ))}
           </>
         )}
+        <button ref={pageEnd} style={{ opacity: 0 }}>
+          Load more
+        </button>
       </div>
     </>
   );
