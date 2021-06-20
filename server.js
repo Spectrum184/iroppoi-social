@@ -55,10 +55,10 @@ mongoose.connect(
   },
   (err) => {
     if (err) throw err;
-    console.log("Connected to Mongoose");
+    console.log("🔥[mongo]:Connected to Mongoose");
   }
 );
 
 http.listen(port, () => {
-  console.log("Server listening on port: " + port);
+  console.log("❤️ [express]:Server listening on port: " + port);
 });
