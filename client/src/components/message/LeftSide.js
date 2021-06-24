@@ -9,7 +9,7 @@ import { MESS_TYPES, getConversation } from "../../redux/actions/messageAction";
 const LeftSide = () => {
   const [search, setSearch] = useState("");
   const [searchUser, setSearchUser] = useState([]);
-  const { auth, message } = useSelector((state) => state);
+  const { auth, message, online } = useSelector((state) => state);
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -39,7 +39,7 @@ const LeftSide = () => {
       type: MESS_TYPES.ADD_USER,
       payload: { ...user, text: "", media: [] },
     });
-
+    dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
     return history.push(`/message/${user._id}`);
   };
 
@@ -73,6 +73,12 @@ const LeftSide = () => {
     if (message.firstLoad) return;
     dispatch(getConversation({ auth }));
   }, [message.firstLoad, dispatch, auth]);
+
+  //check user online offline
+  useEffect(() => {
+    if (message.firstLoad)
+      dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+  }, [message.firstLoad, dispatch, online]);
 
   return (
     <>
@@ -110,7 +116,13 @@ const LeftSide = () => {
                 onClick={() => handleAddUser(user)}
               >
                 <UserCard user={user} msg={true}>
-                  <i className="fas fa-circle" />
+                  {user.online ? (
+                    <i className="fas fa-circle text-success" />
+                  ) : (
+                    auth.user.following.find(
+                      (item) => item._id === user._id
+                    ) && <i className="fas fa-circle" />
+                  )}
                 </UserCard>
               </div>
             ))}
