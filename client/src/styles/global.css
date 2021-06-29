@@ -78,6 +78,9 @@ img {
 /* ------------ICON-------------- */
 @import url("./icons.css");
 
+/* ------------CALL MODAL-------------- */
+@import url("./call_modal.css");
+
 /* -------------RESPONSIVE--------------- */
 @media (max-width: 768px) {
   .header .menu {
