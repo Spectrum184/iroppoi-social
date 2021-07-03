@@ -20,6 +20,7 @@ import { getNotifies } from "./redux/actions/notifyAction";
 import { GLOBAL_TYPES } from "./redux/actions/globalTypes";
 import SocketClient from "./SocketClient";
 import CallModal from "./components/message/CallModal";
+import Peer from "peerjs";
 
 function App() {
   const { auth, status, modal, call } = useSelector((state) => state);
@@ -40,6 +41,15 @@ function App() {
       dispatch(getNotifies(auth.token));
     }
   }, [dispatch, auth.token]);
+
+  useEffect(() => {
+    const newPeer = new Peer(undefined, {
+      host: "/",
+      port: 3001,
+    });
+
+    dispatch({ type: GLOBAL_TYPES.PEER, payload: newPeer });
+  }, [dispatch]);
 
   useEffect(() => {
     if (!("Notification" in window)) {

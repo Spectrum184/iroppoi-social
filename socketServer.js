@@ -1,5 +1,13 @@
 let users = [];
 
+const editData = (data, id, call) => {
+  const newData = data.map((item) =>
+    item.id === id ? { ...item, call } : item
+  );
+
+  return newData;
+};
+
 const SocketServer = (socket) => {
   // connect disconnect
   socket.on("joinUser", (user) => {
@@ -138,6 +146,40 @@ const SocketServer = (socket) => {
           .to(`${client.socketId}`)
           .emit("checkUserOnlineToClient", data._id);
       });
+    }
+  });
+
+  //Call
+  socket.on("callUser", (data) => {
+    users = editData(users, data.sender, data.recipient);
+
+    const client = users.find((user) => user.id === data.recipient);
+
+    if (client) {
+      if (client.call) {
+        users = editData(users, data.sender, null);
+        socket.emit("userBusy", data);
+      } else {
+        users = editData(users, data.recipient, data.sender);
+        socket.to(`${client.socketId}`).emit("callUserToClient", data);
+      }
+    }
+  });
+
+  socket.on("endCall", (data) => {
+    const client = users.find((user) => user.id === data.sender);
+
+    if (client) {
+      users = editData(users, client.id, null);
+
+      socket.to(`${client.socketId}`).emit("endCallToClient", data);
+      if (client.call) {
+        const clientCall = users.find((user) => user.id === client.call);
+        clientCall &&
+          socket.to(`${clientCall.socketId}`).emit("endCallToClient", data);
+
+        users = editData(users, client.call, null);
+      }
     }
   });
 };
