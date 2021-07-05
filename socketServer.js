@@ -32,6 +32,14 @@ const SocketServer = (socket) => {
           console.log(client);
         });
       }
+      if (data.call) {
+        const callUser = users.find((user) => user.id === data.call);
+
+        if (callUser) {
+          users = editData(users, callUser.id, null);
+          socket.to(`${callUser.socketId}`).emit("callDisconnect");
+        }
+      }
     }
 
     users = users.filter((user) => user.socketId !== socket.id);
