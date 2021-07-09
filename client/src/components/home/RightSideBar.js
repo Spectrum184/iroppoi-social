@@ -41,6 +41,7 @@ const RightSideBar = () => {
           href="https://github.com/Spectrum184/"
           target="_blank"
           rel="noreferrer"
+          style={{ wordBreak: "break-all" }}
         >
           <small>Welcome to my github!</small>
         </a>

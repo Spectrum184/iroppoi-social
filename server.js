@@ -8,7 +8,7 @@ const morgan = require("morgan");
 const rfs = require("rotating-file-stream");
 const path = require("path");
 const SocketServer = require("./socketServer");
-const { PeerServer } = require("peer");
+const { ExpressPeerServer } = require("peer");
 
 const app = express();
 
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 });
 
 //Creat peer server
-PeerServer({ port: 3001, path: "/" });
+ExpressPeerServer(http, { path: "/" });
 
 //Routes
 app.use("/api", require("./routes/authRouter"));
