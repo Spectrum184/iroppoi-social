@@ -29,7 +29,6 @@ const SocketServer = (socket) => {
       if (clients.length > 0) {
         clients.forEach((client) => {
           socket.to(`${client.socketId}`).emit("CheckUserOffline", data);
-          console.log(client);
         });
       }
       if (data.call) {

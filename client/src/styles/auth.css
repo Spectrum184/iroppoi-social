@@ -1,7 +1,7 @@
 .auth-page {
   width: 100%;
   min-height: 100vh;
-  background: #ebeced;
+  background: #fdfdfd;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +13,6 @@
   width: 100%;
   border: 1px solid #cbcdd0;
   padding: 50px 25px;
-  position: absolute;
 }
 
 .auth-page form .pass {

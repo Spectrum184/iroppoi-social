@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const Toast = ({ msg, handleShow, bgColor }) => {
+  const toastRef = useRef();
+
+  useEffect(() => {
+    setTimeout(() => {
+      toastRef.current.innerHTML = "";
+    }, 3000);
+  }, []);
+
   return (
     <div
       className={`toast show position-fixed text-light ${bgColor}`}
       style={{ top: "5px", right: "5px", minWidth: "200px", zIndex: 50 }}
+      ref={toastRef}
     >
       <div className={`toast-header text-light ${bgColor}`}>
         <strong className="mr-auto text-light">{msg.title}</strong>

@@ -65,6 +65,13 @@ mongoose.connect(
   }
 );
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+  });
+}
+
 http.listen(port, () => {
   console.log("❤️ [express]:Server listening on port: " + port);
 });

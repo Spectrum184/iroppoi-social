@@ -30,7 +30,7 @@ const commentCtrl = {
       await Posts.findOneAndUpdate(
         { _id: postId },
         {
-          $push: { comments: newComment },
+          $push: { comments: newComment._id },
         },
         { new: true }
       );

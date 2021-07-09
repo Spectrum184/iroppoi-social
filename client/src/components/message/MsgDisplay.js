@@ -46,6 +46,7 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
               </div>
             ))}
           </div>
+
           {msg.call && (
             <button
               className="btn d-flex align-items-center py-3"
@@ -57,6 +58,7 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
                   fontSize: "2.5rem",
                   color: msg.call.times === 0 ? "crimson" : "green",
                   filter: theme ? "invert(1)" : "invert(0)",
+                  width: "40px",
                 }}
               >
                 {msg.call.times === 0
@@ -73,7 +75,7 @@ const MsgDisplay = ({ user, msg, theme, data }) => {
                   {msg.call.times > 0 ? (
                     <Times total={msg.call.times} />
                   ) : (
-                    new Date(msg.call.times).toLocaleDateString()
+                    new Date(msg.createdAt).toLocaleDateString()
                   )}
                 </small>
               </div>

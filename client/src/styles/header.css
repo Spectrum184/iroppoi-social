@@ -8,6 +8,9 @@
   box-shadow: 0 0 10px #ddd;
   background-color: #f8f9fa;
   border: 1px solid rgba(0, 0, 0, 0.125);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header .navbar {

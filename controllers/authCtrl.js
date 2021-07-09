@@ -58,8 +58,8 @@ const authCtrl = {
       const { email, password } = req.body;
 
       const user = await Users.findOne({ email }).populate(
-        "follower following",
-        "avatar username fullname follower following"
+        "followers following",
+        "avatar username fullname followers following"
       );
 
       if (!user)
@@ -112,8 +112,8 @@ const authCtrl = {
           const user = await Users.findById(result.id)
             .select("-password")
             .populate(
-              "follower following",
-              "avatar username fullname follower following"
+              "followers following",
+              "avatar username fullname followers following"
             );
 
           if (!user)
