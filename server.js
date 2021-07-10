@@ -5,10 +5,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
+const helmet = require("helmet");
 const rfs = require("rotating-file-stream");
 const path = require("path");
 const SocketServer = require("./socketServer");
 const { ExpressPeerServer } = require("peer");
+const config = require("./config/config");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
 
@@ -19,6 +22,7 @@ const accessLogStream = rfs.createStream("access.log", {
   interval: "1d", // rotate daily
   path: path.join(__dirname, "log"),
 });
+const limiter = rateLimit(config.rateLimit);
 
 app.use(express.json());
 app.use(
@@ -26,21 +30,20 @@ app.use(
 );
 app.use(cors());
 app.use(cookieParser());
+app.use(helmet());
+app.use(limiter);
 
 // Socket.io
 const http = require("http").createServer(app);
 const io = require("socket.io")(http, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
+  cors: config.socketCors,
 });
 
 io.on("connection", (socket) => {
   SocketServer(socket);
 });
 
-//Creat peer server
+//Create peer server
 ExpressPeerServer(http, { path: "/" });
 
 //Routes
@@ -51,19 +54,10 @@ app.use("/api", require("./routes/commentRouter"));
 app.use("/api", require("./routes/notifyRouter"));
 app.use("/api", require("./routes/messageRouter"));
 
-mongoose.connect(
-  URI,
-  {
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  },
-  (err) => {
-    if (err) throw err;
-    console.log("🔥[mongo]:Connected to Mongoose");
-  }
-);
+mongoose.connect(URI, config.mongodbConfig, (err) => {
+  if (err) throw err;
+  console.log("🔥[mongo]:Connected to Mongoose");
+});
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));

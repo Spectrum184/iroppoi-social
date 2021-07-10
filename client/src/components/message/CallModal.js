@@ -114,6 +114,7 @@ const CallModal = () => {
       newCall.on("stream", function (remoteStream) {
         playStream(otherVideo.current, remoteStream);
       });
+
       setAnswer(true);
       setNewCall(newCall);
     });
@@ -223,28 +224,25 @@ const CallModal = () => {
         )}
 
         <div className="call-menu">
-          <button
-            className="material-icons text-danger"
-            onClick={handleEndCall}
-          >
+          <span className="material-icons text-danger" onClick={handleEndCall}>
             call_end
-          </button>
+          </span>
           {call.recipient === auth.user._id && !answer && (
             <>
               {call.video ? (
-                <button
-                  className="material-icons text-danger"
+                <span
+                  className="material-icons text-success"
                   onClick={handleAnswer}
                 >
                   videocam
-                </button>
+                </span>
               ) : (
-                <button
+                <span
                   className="material-icons text-success"
                   onClick={handleAnswer}
                 >
                   call
-                </button>
+                </span>
               )}
             </>
           )}
@@ -265,9 +263,9 @@ const CallModal = () => {
             <span>:</span>
             <span>{second.toString().length < 2 ? "0" + second : second}</span>
           </div>
-          <button className="material-icons end-call" onClick={handleEndCall}>
+          <span className="material-icons end-call" onClick={handleEndCall}>
             call_end
-          </button>
+          </span>
         </div>
       </div>
     </div>

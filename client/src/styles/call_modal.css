@@ -37,7 +37,7 @@
   justify-content: space-around;
 }
 
-.call-menu button {
+.call-menu span {
   font-size: 2rem;
   background: #eee;
   padding: 15px;
